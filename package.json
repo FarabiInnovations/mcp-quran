@@ -1,0 +1,36 @@
+{
+  "type": "module",
+  "name": "mcp-quran",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc && chmod 755 build/index.js",
+    "debug": "npx -y @modelcontextprotocol/inspector node build/index.js"
+  },
+  "keywords": [
+    "mcp",
+    "quran",
+    "mcp-quran"
+  ],
+  "author": "Rabea Abdelwahab",
+  "license": "ISC",
+  "packageManager": "pnpm@10.11.0",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.13.2",
+    "@quranjs/api": "^1.8.0",
+    "zod": "^3.25.67"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/inspector": "^0.15.0",
+    "@types/node": "^24.0.7",
+    "typescript": "^5.8.3"
+  },
+  "bin": {
+    "quran": "./build/index.js"
+  },
+  "files": [
+    "build"
+  ]
+}
