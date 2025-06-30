@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  mcp-quran:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    container_name: mcp-quran-server
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    volumes:
+      # Optional: Mount logs directory for persistent logging
+      - ./logs:/app/logs
+    networks:
+      - mcp-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "console.log('MCP Quran Server is healthy')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Development service with hot reload
+  mcp-quran-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    container_name: mcp-quran-dev
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=development
+    volumes:
+      # Mount source code for hot reload
+      - ./src:/app/src
+      - ./package.json:/app/package.json
+      - ./pnpm-lock.yaml:/app/pnpm-lock.yaml
+      - ./tsconfig.json:/app/tsconfig.json
+    working_dir: /app
+    command: ["pnpm", "debug"]
+    networks:
+      - mcp-network
+    profiles:
+      - dev
+
+networks:
+  mcp-network:
+    driver: bridge 
