@@ -1,5 +1,6 @@
 import { quran, ChapterId, Language } from "@quranjs/api";
 import z from "zod";
+import { formatMcpResponse } from "../helper/index.js";
 
 // Define the chapter options type based on the SDK
 type ChapterOptions = Partial<{
@@ -16,7 +17,7 @@ const chaptersAllTool = {
     },
     execute: async (args: { options?: ChapterOptions }, extra: any) => {
         const result = await quran.v4.chapters.findAll(args.options);
-        return { content: [{ type: "text" as const, text: JSON.stringify(result, null, 2) }] };
+        return formatMcpResponse(result);
     }
 };
 
@@ -31,7 +32,7 @@ const chaptersByIdTool = {
     },
     execute: async (args: { id: number; options?: ChapterOptions }, extra: any) => {
         const result = await quran.v4.chapters.findById(args.id as ChapterId, args.options);
-        return { content: [{ type: "text" as const, text: JSON.stringify(result, null, 2) }] };
+        return formatMcpResponse(result);
     }
 };
 
