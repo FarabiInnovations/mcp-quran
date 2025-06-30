@@ -5,6 +5,7 @@
   
   [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
   [![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-blue.svg)](https://www.typescriptlang.org/)
+  [![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](https://www.docker.com/)
 </div>
 
 A Model Context Protocol (MCP) server that provides comprehensive access to the Quran through the [QuranJS API](https://quranjs.com/). This server enables AI assistants and applications to retrieve Quranic content including chapters, verses, translations, tafsirs, and more.
@@ -18,6 +19,7 @@ A Model Context Protocol (MCP) server that provides comprehensive access to the 
 - **Audio Support**: Recitation options and audio files
 - **Type Safety**: Full TypeScript support with proper SDK types
 - **MCP Compliance**: Standard Model Context Protocol implementation
+- **Docker Support**: Easy containerized deployment
 
 ## 📦 Installation
 
@@ -25,8 +27,11 @@ A Model Context Protocol (MCP) server that provides comprehensive access to the 
 
 - Node.js 18+ 
 - pnpm (recommended) or npm
+- Docker (optional, for containerized deployment)
 
 ### Setup
+
+#### Local Development
 
 ```bash
 # Clone the repository
@@ -41,6 +46,22 @@ pnpm build
 
 # Run in debug mode with MCP Inspector
 pnpm debug
+```
+
+#### Docker Deployment
+
+```bash
+# Build and run with Docker Compose
+docker-compose up -d
+
+# For development with hot reload
+docker-compose --profile dev up -d
+
+# Build Docker image manually
+docker build -t mcp-quran .
+
+# Run container
+docker run -d --name mcp-quran-server mcp-quran
 ```
 
 ## 🚀 Quick Start
@@ -87,7 +108,7 @@ The MCP Quran server provides tools for accessing Quranic content. Here are some
 }
 ```
 
-## ��️ Available Tools
+## 🛠️ Available Tools
 
 This MCP server exposes the following tools that correspond to the QuranJS API endpoints:
 
@@ -143,6 +164,23 @@ Add this to your MCP client configuration:
   }
 }
 ```
+
+### Docker Configuration
+
+For Docker deployments, use the containerized version:
+
+```json
+{
+  "mcpServers": {
+    "quran": {
+      "command": "docker",
+      "args": ["run", "--rm", "mcp-quran"],
+      "env": {}
+    }
+  }
+}
+```
+
 ## 🏗️ Architecture
 
 The server is built with:
@@ -152,6 +190,7 @@ The server is built with:
 - **QuranJS API**: For Quranic data access
 - **Zod**: For runtime validation
 - **pnpm**: For package management
+- **Docker**: For containerized deployment
 
 ### Project Structure
 
@@ -168,6 +207,9 @@ mcp-quran/
 ├── media/
 │   └── logo.png          # Project logo
 ├── build/                # Compiled JavaScript
+├── Dockerfile            # Docker configuration
+├── docker-compose.yml    # Docker Compose setup
+├── .dockerignore         # Docker ignore rules
 └── package.json          # Project configuration
 ```
 
@@ -184,6 +226,19 @@ pnpm build
 
 # Run in debug mode with MCP Inspector
 pnpm debug
+```
+
+### Docker Development
+
+```bash
+# Start development environment with hot reload
+docker-compose --profile dev up -d
+
+# View logs
+docker-compose logs -f mcp-quran-dev
+
+# Stop development environment
+docker-compose --profile dev down
 ```
 
 ## 🤝 Contributing
